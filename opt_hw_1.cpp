@@ -8,24 +8,20 @@ using namespace std;
 double memo[53][53] = {0};
 //so this wont work if it is greater than 52
 
-double choose(int n, int r)
-{
+double choose(int n, int r){
     if (memo[n][r] != 0){
         return memo[n][r];
     }
     
-    if (r==0 || r==n)
-    {
+    if (r==0 || r==n){
         return memo[n][r] = 1;
     }
-    else
-    {
+    else{
         return memo[n][r] = choose(n-1, r-1) + choose(n-1, r);
     }
 }
 
-int main()
-{
+int main(){
     //calculate random n from 1 - 52
     //calculate random r from 0 - n
     //do this 100M times
