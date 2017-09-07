@@ -4,7 +4,7 @@
 using namespace std;
 
 int memo[53][53] = {0};
-//so this wont work if it si greater than 52
+//so this wont work if it is greater than 52
 
 int choose(int n, int r)
 {
