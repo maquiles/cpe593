@@ -35,6 +35,8 @@ int main()
         n = rand() % 52 + 1;
         r = rand() % n;
 
+        choose(n, r);
+
         //cout<< n<< ' '<< r<< ' '<< choose(n,r)<< endl;
     }
 
