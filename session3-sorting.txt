@@ -1,0 +1,22 @@
+5 September 2017
+
+quicksort and heapsort are what he’ll probably ask us to do
+
+bubble sort is bad but you need to learn it just out of principle
+
+
+
+BUBBLE SORT
+1 per each comparison and 1 per each swap
+
+there is a way to swap without a 3rd variable
+
+nlogn is the best that you can do with sorting that involves swapping
+-as long as you don’t already know the order
+
+heap sort is not as quick as quicksort, but you do not have to worry about pivot points
+-more complexity but more comfort with heapsort
+
+need to be able to write quicksort and heapsort for class next week
+
+radix sort is not required - can sort faster with it but only for certain conditions
