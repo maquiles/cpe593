@@ -1,12 +1,14 @@
 #include <iostream>
 #include <stdio.h>
+#include <stdlib.h>
+#include "time.h"
 
 using namespace std;
 
-int memo[53][53] = {0};
+double memo[53][53] = {0};
 //so this wont work if it is greater than 52
 
-int choose(int n, int r)
+double choose(int n, int r)
 {
     if (memo[n][r] != 0){
         return memo[n][r];
@@ -24,6 +26,18 @@ int choose(int n, int r)
 
 int main()
 {
-    cout<< choose(52,6) << endl;
+    //calculate random n from 1 - 52
+    //calculate random r from 0 - n
+    //do this 100M times
+    int n, r;
+    srand(time(NULL));
+    for (int i = 0; i< 100000000; i++){
+        n = rand() % 52 + 1;
+        r = rand() % n;
+
+        //cout<< n<< ' '<< r<< ' '<< choose(n,r)<< endl;
+    }
+
+    cout<< n<< ' '<< r<< ' '<< choose(n,r)<< endl;
     return 0;
 }
