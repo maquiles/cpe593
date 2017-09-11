@@ -8,7 +8,7 @@ using namespace std;
 int partition(int *arr, const int left, const int right){
     const int mid = left + (right - left)/2;
     const int pivot = arr[mid];
-    std::swap(arr[mid], arr[left]);
+    swap(arr[mid], arr[left]);
     int i = left + 1;
     int j = right;
 
