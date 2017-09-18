@@ -39,7 +39,7 @@ void quicksort(int *arr, const int left, const int right){
 }
 
 int main(){
-    int nums[10] = {1,4,5,8,9,10,7,6,3,2};
+    int nums[3] = {3,5,4};
     int size = sizeof(nums)/sizeof(nums[0]);
 
     cout<<size<<endl;
