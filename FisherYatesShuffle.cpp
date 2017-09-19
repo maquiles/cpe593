@@ -8,7 +8,7 @@ using namespace std;
 void badShuffle(int arr[], int n){
     srand(time(NULL));
     for (int i=n-1; i>0;i--){
-        int rnd = rand() % n-1;
+        int rnd = rand() % i;
         swap(arr[rnd], arr[i]);
     }
 }
