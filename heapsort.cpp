@@ -1,10 +1,16 @@
-// c++ program that used the heapsort algorithm to sort numbers withing an array in ascending order
-#include <iostream>
+/* Matthew Aquiles
+** CPE 593 hw2b heapsort
+*/
+
+#include<iostream>
+#include<fstream>
+#include<sstream>
+#include<vector>
 
 using namespace std;
  
 //n is the size of the heap
-void heapify(int arr[], int size, int i){
+void heapify(vector<int> &arr, int size, int i){
     int root = i;
     int left = 2*i + 1;
     int right = 2*i + 2;
@@ -23,7 +29,7 @@ void heapify(int arr[], int size, int i){
     }
 }
  
-void heapsort(int arr[], int size){
+void heapsort(vector<int> &arr, int size){
     for (int i = size / 2 - 1; i >= 0; i--){
         heapify(arr, size, i);
     }
@@ -37,22 +43,33 @@ void heapsort(int arr[], int size){
     }
 }
 
+void print_vec(vector<int> V){
+    for(int i=0; i<V.size(); i++){
+        cout<< " "<< V[i];
+    }
+    cout<< "\n";
+}
+
 int main(){
-    int nums[10] = {1,4,5,8,9,10,7,6,3,2};
-    int size = sizeof(nums)/sizeof(nums[0]);
-    
-        cout<<size<<endl;
-    
-        for (int i = 0; i< size; i++){
-            cout<< nums[i]<< " ";
+    ifstream infile("hw2a.dat");
+    string line;
+
+    while (getline(infile, line)){
+        stringstream iss(line);
+        int n;
+        vector<int> vec;
+        while(iss >> n){
+            vec.push_back(n);
         }
-        cout<<"\n";
-    
-        heapsort(nums, size);
-    
-        for (int j = 0; j < size; j++){
-            cout<< nums[j]<< " ";
+
+        if(vec.size() == 1){
+            //this is the size of the array in the next line;
+            //do nothing
         }
-        cout<<"\n";
-        return 0;
+        else{
+            heapsort(vec, vec.size());
+            print_vec(vec);
+        }
+    }
+    return 0;
 }

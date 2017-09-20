@@ -1,11 +1,16 @@
-//c++ program that uses the quicksort algorithm to sort numbers within an array in ascending order
+/* Matthew Aquiles
+** CPE 593 hw2a quicksort
+*/
 
-#include <iostream>
-#include <algorithm>
+#include<iostream>
+#include<algorithm>
+#include<fstream>
+#include<sstream>
+#include<vector>
 
 using namespace std;
 
-int partition(int *arr, const int left, const int right){
+int partition(vector<int> &arr, const int left, const int right){
     const int mid = left + (right - left)/2;
     const int pivot = arr[mid];
     swap(arr[mid], arr[left]);
@@ -28,7 +33,7 @@ int partition(int *arr, const int left, const int right){
     return i-1;
 }
 
-void quicksort(int *arr, const int left, const int right){
+void quicksort(vector<int> &arr, const int left, const int right){
     if(left >= right){
         return;
     }
@@ -38,22 +43,33 @@ void quicksort(int *arr, const int left, const int right){
     quicksort(arr, part+1, right);
 }
 
+void print_vec(vector<int> V){
+    for(int i=0; i<V.size(); i++){
+        cout<< " "<< V[i];
+    }
+    cout<< "\n";
+}
+
 int main(){
-    int nums[3] = {3,5,4};
-    int size = sizeof(nums)/sizeof(nums[0]);
+    ifstream infile("hw2a.dat");
+    string line;
 
-    cout<<size<<endl;
+    while (getline(infile, line)){
+        stringstream iss(line);
+        int n;
+        vector<int> vec;
+        while(iss >> n){
+            vec.push_back(n);
+        }
 
-    for (int i = 0; i< size; i++){
-        cout<< nums[i]<< " ";
+        if(vec.size() == 1){
+            //this is the size of the array in the next line;
+            //do nothing
+        }
+        else{
+            quicksort(vec, 0, vec.size()-1);
+            print_vec(vec);
+        }
     }
-    cout<<"\n";
-
-    quicksort(nums, 0, size-1);
-
-    for (int j = 0; j < size; j++){
-        cout<< nums[j]<< " ";
-    }
-    cout<<"\n";
     return 0;
 }
