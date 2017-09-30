@@ -51,7 +51,7 @@ void print_vec(vector<int> V){
 }
 
 int main(){
-    ifstream infile("hw2a.dat");
+    ifstream infile("hw2b.dat");
     string line;
 
     while (getline(infile, line)){
