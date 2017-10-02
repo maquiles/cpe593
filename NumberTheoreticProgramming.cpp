@@ -111,6 +111,43 @@ void modifiedEratosthenes(int n){
     }
 }//this one works, so im really not sure why the other one doesnt work, i must be missing something
 
+//function to computer a number raised to a power using brute force
+//O(n)
+int bruteForcePower(int x, int n){
+    int prod = 1;
+    for (int i = 1; i<=n; i++){
+        prod *= x;
+    }
+    return prod;
+}
+
+//power algorithm
+int power(int x, int n){
+    int prod = 1;
+    while (n>0){
+        if(x % 2 == 1){
+            prod *= x;
+        }
+        x *= x;
+        n = n/2;
+    }
+}//im not sure what is going on here, the psudo code in the notes doesnt make sense to me
+
+//not really sure what going on here
+//O(log n)
+int powermod(int x, int n, int m){
+    int prod = 1;
+    while(n>0){
+        if(x % 2 ==1){
+            prod = prod*x % m;
+        }
+        x = x*x % m;
+        n = n/2;
+    }
+}// i dont really understand the psudo code in the notes for this one either
+
+
+
 int main(){
     // cout<< bruteForceGCD(44,256)<<"\n";
     // cout<< gcd(44,256)<<"\n";
@@ -119,5 +156,6 @@ int main(){
     // cout<< bruteForceIsPrime(9)<< "\n";
     // cout<< isPrime(7)<< "\n";
     // cout<< countPrimes(11)<< "\n";
-    modifiedEratosthenes(20);
+    // modifiedEratosthenes(20);
+    cout<< bruteForcePower(4, 4)<< "\n";
 }
