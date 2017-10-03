@@ -162,6 +162,12 @@ bool fermat(long long p, int k){
     return true;
 }
 
+//miller rabin
+
+//high performance eratosthenes
+
+//RSA
+
 int main(){
     // cout<< bruteForceGCD(44,256)<<"\n";
     // cout<< gcd(44,256)<<"\n";
