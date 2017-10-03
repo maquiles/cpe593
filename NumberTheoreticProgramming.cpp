@@ -121,32 +121,29 @@ int bruteForcePower(int x, int n){
     return prod;
 }
 
-//power algorithm
 int power(int x, int n){
     int prod = 1;
-    while (n>0){
-        if(x % 2 == 1){
+    while(n>0){
+        if(n % 2 != 0){
             prod *= x;
         }
         x *= x;
         n = n/2;
     }
-}//im not sure what is going on here, the psudo code in the notes doesnt make sense to me
+    return prod;
+}
 
-//not really sure what going on here
-//O(log n)
 int powermod(int x, int n, int m){
     int prod = 1;
     while(n>0){
-        if(x % 2 ==1){
+        if(n % 2 != 0){
             prod = prod*x % m;
         }
         x = x*x % m;
         n = n/2;
     }
-}// i dont really understand the psudo code in the notes for this one either
-
-
+    return prod;
+}
 
 int main(){
     // cout<< bruteForceGCD(44,256)<<"\n";
@@ -157,5 +154,7 @@ int main(){
     // cout<< isPrime(7)<< "\n";
     // cout<< countPrimes(11)<< "\n";
     // modifiedEratosthenes(20);
-    cout<< bruteForcePower(4, 4)<< "\n";
+    // cout<< bruteForcePower(4, 4)<< "\n";
+    cout<< power(2, 4)<< "\n";
+    // cout<< powermod(2, 4, ???)<< "\n";
 }
