@@ -163,6 +163,48 @@ bool fermat(long long p, int k){
 }
 
 //miller rabin
+bool MillerRabin(long long x, int n){
+    long long a = 2 + rand() % (n - 4);
+    long long p = powermod(a, x, n);
+
+    if(p == 1 || p == n-1){
+        return true;
+    }
+
+    while (x != n-1){
+        p = (p*p) % n;
+        x *= 2;
+
+        if(x == 1){
+            return false;
+        }
+        if(x == n-1){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool isPrimeMR(int n, int k){
+    if(n <= 1 || n == 4){
+        return false;
+    }
+    if(n <= 3){
+        return true;
+    }
+
+    int d = n-1;
+    while (d % 2 == 0){
+        d /= 2;
+    }
+
+    for (int i = 0; i<k; i++){
+        if(MillerRabin(d, n) == false){
+            return false;
+        }
+    }
+    return true;
+}
 
 //high performance eratosthenes
 
@@ -181,4 +223,5 @@ int main(){
     // cout<< power(2, 4)<< "\n";
     // cout<< powermod(2, 4, ???)<< "\n";
     cout<< fermat(479001599, 50)<< "\n";
+    cout<< isPrimeMR(479001599, 50)<< "\n";
 }
