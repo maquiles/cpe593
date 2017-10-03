@@ -2,6 +2,9 @@
 #include<algorithm>
 #include<math.h>
 #include<vector>
+#include <stdio.h>
+#include <stdlib.h>
+#include "time.h"
 
 using namespace std;
 
@@ -133,16 +136,30 @@ int power(int x, int n){
     return prod;
 }
 
-int powermod(int x, int n, int m){
-    int prod = 1;
-    while(n>0){
-        if(n % 2 != 0){
-            prod = prod*x % m;
+int powermod(long long  x, long long n, long long m){
+    long long prod = 1;
+    while (n > 0){
+        if(n % 2 == 1){
+            prod = (prod*x) % m;
         }
-        x = x*x % m;
+        x = (x*x) % m;
         n = n/2;
     }
-    return prod;
+    return prod % m;
+}
+
+//function to implement fermats little theorem to test primality
+bool fermat(long long p, int k){
+    if(p == 1){
+        return false;
+    }
+    for (int i = 0; i<k; i++){
+        int a = rand() % p-1 + 1;
+        if(powermod(a, p-1, p) != 1){
+            return false;
+        }
+    }
+    return true;
 }
 
 int main(){
@@ -151,10 +168,11 @@ int main(){
     // cout<< recGCD(44,256)<<"\n";
     // cout<< lcm(44,256)<<"\n";
     // cout<< bruteForceIsPrime(9)<< "\n";
-    // cout<< isPrime(7)<< "\n";
+    // cout<< isPrime(479001599)<< "\n";
     // cout<< countPrimes(11)<< "\n";
     // modifiedEratosthenes(20);
     // cout<< bruteForcePower(4, 4)<< "\n";
-    cout<< power(2, 4)<< "\n";
+    // cout<< power(2, 4)<< "\n";
     // cout<< powermod(2, 4, ???)<< "\n";
+    cout<< fermat(479001599, 50)<< "\n";
 }
