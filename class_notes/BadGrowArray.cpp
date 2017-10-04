@@ -6,7 +6,7 @@ class BadGrowArray {
 private:
     uint32_t capacity;
     int* data;
-    
+
 public:
     BadGrowArray(){
         data = nullptr;
@@ -84,7 +84,7 @@ public:
     }
 };
 
-void f(BadGrowArray x){
+void f(BadGrowArray a){
     //do something
 }
 
@@ -100,7 +100,7 @@ int main(){
     for (int i = 0; i < n; i++){
         L1.addEnd(i);
     }
-    L1.insert(2, val); //delete the 0
+    L1.insert(2, 19); //delete the 0
     L1.removeEnd(); //9
     L1.removeStart(); //3
     cout<< L1<< "\n";
