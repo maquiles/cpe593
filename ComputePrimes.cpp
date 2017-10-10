@@ -32,13 +32,28 @@ int ComputePrimes(long int a, long int b){
 
     //remove even numbers
     if(a%2==0){
-        for (long int i = 0; i<=delta; i+=2){
-            primes[i] = false;
+        if(a == 2){//so if a is 2 it does not get marked false
+            for (long int i = 2; i<=delta; i+=2){
+                primes[i] = false;
+            }
+        }
+        else{
+            for (long int i = 0; i<=delta; i+=2){
+                primes[i] = false;
+            }
         }
     }
     else{ //a%2 == 1
-        for (long int i = 1; i<=delta; i+=2){
-            primes[i] = false;
+        if(a == 1){//in case a is 1, 2 does not get marked false, but 1 does
+            primes[0] = false;
+            for (long int i = 3; i<=delta; i+=2){
+                primes[i] = false;
+            }
+        }
+        else{
+            for (long int i = 1; i<=delta; i+=2){
+                primes[i] = false;
+            }
         }
     }
 
@@ -49,14 +64,14 @@ int ComputePrimes(long int a, long int b){
             long int y = x*j;
             if(y >= a){
                 for (long int k = y; k<=b; k+=j){
-                    if (primes[k-a] == true){
+                    if (primes[k-a] == true && k != j){
                         primes[k-a] = false;
                     }
                 }
             }
             else{
                 for (long int k = y+j; k<=b; k+=j){
-                    if (primes[k-a] == true){
+                    if (primes[k-a] == true && k != j){
                         primes[k-a] = false;
                     }
                 }
