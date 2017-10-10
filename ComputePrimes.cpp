@@ -9,25 +9,73 @@
 */
 
 #include<iostream>
+#include<math.h>
+#include<string.h>
+#include<stdlib.h>
+#include<vector>
 
 using namespace std;
 
-int ComputePrimes(int a, int b){
-    vector<bool> primes(b-a, true);
-    int count = 0;
+bool isPrime(long int n){
+    for (long int i = 2; i<=sqrt(n); i++){
+        if(n%i == 0){
+            return false;
+        }
+    }
+    return true;
+}
 
-    //first compare the numbers and switch them if a > b
-    //then remove all even numbers
+int ComputePrimes(long int a, long int b){
+    long int delta = b-a;
+    vector<bool> primes(delta+1, true);
+    long int count = 0;
+
+    //remove even numbers
     if(a%2==0){
-        for (int i = 0; i<a-b; i+=2){
+        for (long int i = 0; i<=delta; i+=2){
             primes[i] = false;
         }
-        
     }
-    //then remove multiples of 3 and up
+    else{ //a%2 == 1
+        for (long int i = 1; i<=delta; i+=2){
+            primes[i] = false;
+        }
+    }
 
+    //loop through odd numbers and remove primes
+    for (long int j = 3; j<=sqrt(b); j+=2){
+        if(isPrime(j)){
+            long int x = a/j;
+            long int y = x*j;
+            if(y >= a){
+                for (long int k = y; k<=b; k+=j){
+                    if (primes[k-a] == true){
+                        primes[k-a] = false;
+                    }
+                }
+            }
+            else{
+                for (long int k = y+j; k<=b; k+=j){
+                    if (primes[k-a] == true){
+                        primes[k-a] = false;
+                    }
+                }
+            }
+        }
+    }
+
+    //loop through primes, return count of true
+    for (long int p = 0; p<primes.size(); p++){
+        if(primes[p] == true){
+            count++;
+        }
+    }
+
+    return count;
 }
 
 int main(){
+    cout<< ComputePrimes(2000000000000, 2000000100000)<< "\n";
+
     return 0;
 }
