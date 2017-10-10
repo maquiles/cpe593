@@ -1,18 +1,16 @@
-/* HW1a Compute Primes
-** Write a program that accepts 2 whole numbers a and b, with a<b<10^14
-** must use Eratosthenes sieve
-** program should account for the number of primes between a and b inclusive and output the number
-** 
+/*
 ** Matthew Aquiles
-** CPE 593
+** CPE 593 hw1a Compute Primes
 ** due 10/10/2017
 */
 
 #include<iostream>
+#include<algorithm>
 #include<math.h>
-#include<string.h>
 #include<stdlib.h>
 #include<vector>
+#include<fstream>
+#include<sstream>
 
 using namespace std;
 
@@ -90,7 +88,24 @@ int ComputePrimes(long int a, long int b){
 }
 
 int main(){
-    cout<< ComputePrimes(2000000000000, 2000000100000)<< "\n";
+    ifstream infile("hw1a.dat");
+    string line;
+
+    while (getline(infile, line)){
+        stringstream iss(line);
+        long int n;
+        vector<long int> vec;
+        while (iss >> n){
+            vec.push_back(n);
+        }
+
+        if(vec.size() == 1){
+            //do nothing
+        }
+        else{
+            cout<< ComputePrimes(vec[0], vec[1])<< "\n";;
+        }
+    }
 
     return 0;
 }
