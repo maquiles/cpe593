@@ -84,7 +84,7 @@ public:
 
     //ADD_BACK
     //means add start, start+step, start=2*step,... until end at the back of the array
-    void addFront(int start, int step, int end){
+    void addBack(int start, int step, int end){
         addLast(start);
         int i = 0;
         while (start + (step*i) < end){
