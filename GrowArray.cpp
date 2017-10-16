@@ -8,7 +8,9 @@
 #include<stdlib.h>
 #include<fstream>
 #include<sstream>
+#include<iostream>
 #include<string>
+#include<vector>
 
 using namespace std;
 
@@ -162,16 +164,50 @@ public:
 
 
 int main(){
-    GrowArray matt;
+    GrowArray ga;
+    ifstream infile("HW4a.txt");
+    string line;
 
-    matt.addFront(1, 2, 10);
-    //matt.output();
-    matt.addBack(5, 5, 25);
-    matt.output();
-    matt.removeFront(2);
-    //matt.output();
-    matt.removeBack(2);
-    matt.output();
+    while(getline(infile, line)){
+        stringstream iss(line);
+        string instruction, numbers;
+        iss >> instruction >> numbers;
+
+        if (instruction == "OUTPUT"){
+            ga.output();
+        }
+        else if (instruction == "ADD_FRONT"){
+            istringstream ss(numbers);
+            vector<int> vec;
+            string str;
+            while (getline(ss, str, ':')){
+                vec.push_back( stoi(str.c_str()) );
+            }
+
+            ga.addFront(vec[0], vec[1], vec[2]);
+        }
+        else if (instruction == "ADD_BACK"){
+            istringstream ss(numbers);
+            vector<int> vec;
+            string str;
+            while (getline(ss, str, ':')){
+                vec.push_back( stoi(str.c_str()) );
+            }
+
+            ga.addBack(vec[0], vec[1], vec[2]);
+        }
+        else if (instruction == "REMOVE_FRONT"){
+            int n = stoi(numbers);
+            ga.removeFront(n);
+        }
+        else if (instruction == "REMOVE_BACK"){
+            int m = stoi(numbers);
+            ga.removeBack(m);
+        }
+        else{
+            cout<< "instruction was not understood"<< "\n";
+        }
+    }
 
     return 0;
 }
