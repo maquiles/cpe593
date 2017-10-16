@@ -64,7 +64,7 @@ public:
     void addFront(int start, int step, int end){
         addFirst(start);
         int i = 1;
-        while (start + (step*i) < end){
+        while (start + (step*i) <= end){
             addFirst(start + (step*i));
             i++;
         }
@@ -86,8 +86,8 @@ public:
     //means add start, start+step, start=2*step,... until end at the back of the array
     void addBack(int start, int step, int end){
         addLast(start);
-        int i = 0;
-        while (start + (step*i) < end){
+        int i = 1;
+        while (start + (step*i) <= end){
             addLast(start + (step*i));
             i++;
         }
@@ -162,7 +162,16 @@ public:
 
 
 int main(){
+    GrowArray matt;
 
+    matt.addFront(1, 2, 10);
+    //matt.output();
+    matt.addBack(5, 5, 25);
+    matt.output();
+    matt.removeFront(2);
+    //matt.output();
+    matt.removeBack(2);
+    matt.output();
 
     return 0;
 }
