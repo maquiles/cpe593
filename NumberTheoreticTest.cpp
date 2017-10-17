@@ -126,10 +126,10 @@ bool MillerRabin(long long x, int n){
         p = (p*p)%n;
         x *= 2;
 
-        if(x == 1){
+        if(p == 1){
             return false;
         }
-        if(x == n-1){
+        if(p == n-1){
             return true;
         }
     }
