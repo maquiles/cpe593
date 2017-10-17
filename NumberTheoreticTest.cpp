@@ -1,3 +1,13 @@
+#include <iostream>
+#include <algorithm>
+#include <math.h>
+#include <vector>
+#include <stdio.h>
+#include <stdlib.h>
+#include "time.h"
+
+using namespace std;
+
 /** 
  * test #2 on number theoretic programming
  * things to cover:
