@@ -51,7 +51,7 @@ int power(int x, int n){
         if( n%2 != 0){
             prod *= x;
         }
-        n *= x;
+        x *= x;
         n = n/2;
     }
     return prod;
@@ -63,7 +63,7 @@ int powermod(long long x, long long n, long long m){
     long long prod = 1;
     while (n>0){
         if(n%2 == 1){
-            prod = ([rpd*x)%m;])
+            prod = (prod*x)%m;
         }
         x = (x*x)%m;
         n = n/2;
