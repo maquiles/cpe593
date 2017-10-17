@@ -115,7 +115,7 @@ bool fermat(long long p, int k){
 
 //miller rabin
 bool MillerRabin(long long x, int n){
-    long long a = 2 + rand() % (n-4);
+    long long a = 2 + rand() % (n-4); //in range 2 -> n-2
     long long p = powermod(a, x, n);
 
     if(p ==1 || p== n-1){
@@ -156,3 +156,4 @@ bool isPrimeMR(int n, int k){
     }
     return true;
 }
+/*********************************************************************************************************/
