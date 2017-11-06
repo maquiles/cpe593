@@ -120,27 +120,49 @@ public:
     //REMOVE_FRONT
     //means remove the first n nodes from the list
     void removeFront(int n){
-        if(head == nullptr && tail == nullptr){
-            return;
+        for (int i = n; i<n; i--){
+            if(head == nullptr && tail == nullptr){
+                return;
+            }
+            else if(head == tail){
+                delete head;
+                return;
+            }
+
+            Node* temp = head;
+            head = head->next;
+            delete temp;
         }
-        else if(head == tail){
-            delete head;
-            return;
-        }
-        //need to put inside a loop
-        Node* temp = head;
-        head = head->next;
-        delete temp;
     }
 
     //REMOVE_BACK
     //means remove the last n nodes from the list
     void removeBack(int m){
+        for (int i = n; i<n; i--){
+            if(head == nullptr && tail == nullptr){
+                return;
+            }
+            else if(head == tail){
+                delete head;
+                return;
+            }
 
+            Node* temp = tail;
+            tail = tail->prev;
+            delete temp;
+        }
     }
 
     //OUTPUT
-
+    void output(){
+        Node* temp = head;
+        cout<< "head -> ";
+        while (temp != tail){
+            cout<< temp->data<< " -> ";
+            temp = temp->next;
+        }
+        cout<< "tail"<< "\n";
+    }
 };
 
 int main(){
