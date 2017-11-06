@@ -160,7 +160,7 @@ public:
     void output(){
         Node* temp = head;
         cout<< "head <-> ";
-        while (temp != tail){
+        while (temp != nullptr){
             cout<< temp->data<< " <-> ";
             temp = temp->next;
         }
@@ -170,12 +170,49 @@ public:
 
 int main(){
     DoubleLinkedList2* DLL2 = new DoubleLinkedList2();
-    DLL2->addFront(5, 5, 10);
-    DLL2->addBack(5, 5, 30);
-    DLL2->output();
-    DLL2->removeFront(2);
-    DLL2->removeBack(2);
-    DLL2->output();
-    
+    ifstream infile("HW4b.txt");
+    string line;
+
+    while(getline(infile, line)){
+        stringstream iss(line);
+        string instruction, numbers;
+        iss >> instruction >> numbers;
+
+        if (instruction == "OUTPUT"){
+            DLL2->output();
+        }
+        else if (instruction == "ADD_FRONT"){
+            istringstream ss(numbers);
+            vector<int> vec;
+            string str;
+            while (getline(ss, str, ':')){
+                vec.push_back( stoi(str.c_str()) );
+            }
+
+            DLL2->addFront(vec[0], vec[1], vec[2]);
+        }
+        else if (instruction == "ADD_BACK"){
+            istringstream ss(numbers);
+            vector<int> vec;
+            string str;
+            while (getline(ss, str, ':')){
+                vec.push_back( stoi(str.c_str()) );
+            }
+
+            DLL2->addBack(vec[0], vec[1], vec[2]);
+        }
+        else if (instruction == "REMOVE_FRONT"){
+            int n = stoi(numbers);
+            DLL2->removeFront(n);
+        }
+        else if (instruction == "REMOVE_BACK"){
+            int m = stoi(numbers);
+            DLL2->removeBack(m);
+        }
+        else{
+            cout<< "error: instruction was not understood"<< "\n";
+        }
+    }
+
     return 0;
 }
