@@ -18,14 +18,15 @@ class DoubleLinkedList2 {
 private:
     class Node{
     private:
+
+    public:
         int data;
         Node* next;
         Node* prev;
 
-    public:
         Node(int d, Node* n, Node* p) : data(d), next(n), prev(p) {}
         ~Node(){
-            delete data;
+            //delete the Node
         }
     };
     Node* head;
@@ -41,8 +42,8 @@ public:
         if(tail == nullptr && head == nullptr){
             return;
         }
+        Node* temp;
         while(temp != nullptr){
-            Node* temp = tail;
             tail = tail->prev;
             delete temp;
         }
@@ -83,7 +84,7 @@ public:
         }
 
         int i = 0;
-        while (start + (Step*i) <= end){
+        while (start + (step*i) <= end){
             addFirst(start + (step*i));
             i++;
         }
@@ -92,7 +93,7 @@ public:
     //add a number to the end of the DoubleLinkedList2
     void addLast(int b){
         if(head == nullptr && tail == nullptr){
-            Node* temp = new Node(a, nullptr, nullptr);
+            Node* temp = new Node(b, nullptr, nullptr);
             head = temp;
             tail = temp;
         }
@@ -120,7 +121,7 @@ public:
     //REMOVE_FRONT
     //means remove the first n nodes from the list
     void removeFront(int n){
-        for (int i = n; i<n; i--){
+        for (int i = 0; i<n; i++){
             if(head == nullptr && tail == nullptr){
                 return;
             }
@@ -131,6 +132,7 @@ public:
 
             Node* temp = head;
             head = head->next;
+            head->prev = nullptr;
             delete temp;
         }
     }
@@ -138,7 +140,7 @@ public:
     //REMOVE_BACK
     //means remove the last n nodes from the list
     void removeBack(int m){
-        for (int i = n; i<n; i--){
+        for (int i = 0; i<m; i++){
             if(head == nullptr && tail == nullptr){
                 return;
             }
@@ -149,6 +151,7 @@ public:
 
             Node* temp = tail;
             tail = tail->prev;
+            tail->next = nullptr;
             delete temp;
         }
     }
@@ -156,9 +159,9 @@ public:
     //OUTPUT
     void output(){
         Node* temp = head;
-        cout<< "head -> ";
+        cout<< "head <-> ";
         while (temp != tail){
-            cout<< temp->data<< " -> ";
+            cout<< temp->data<< " <-> ";
             temp = temp->next;
         }
         cout<< "tail"<< "\n";
@@ -166,5 +169,13 @@ public:
 };
 
 int main(){
+    DoubleLinkedList2* DLL2 = new DoubleLinkedList2();
+    DLL2->addFront(5, 5, 10);
+    DLL2->addBack(5, 5, 30);
+    DLL2->output();
+    DLL2->removeFront(2);
+    DLL2->removeBack(2);
+    DLL2->output();
+    
     return 0;
 }
