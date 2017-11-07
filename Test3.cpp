@@ -5,9 +5,10 @@
  *** Stacks
  *** Queues
  * 
- * Matrix - complexity O(nmp) if n=m=p O(n^3)
- * row major: m[i*cols + j]
- * column major: m[j*rows +i]
+ *** Matrix
+ *** matrix[i][j]; i = rows; j= columns
+ *** row major: m[i*cols + j]
+ *** column major: m[j*rows +i]
  * 
  * lower triangular - O(n^2)
  * upper triangular - O(n^2)
@@ -20,17 +21,16 @@
  * m[3*i + (j-i) + 1] --> m[i+i + j +1] --> [i*2 +j]
  * 
  * know definition and complexity for:
- * addition
- * subtraction
- * multiplication
- * gauss-jordan
- * partial pivoting
+ *** addition - O(mn) if n=m -> O(n^2)
+ *** subtraction - same as addition
+ *** multiplication - O(mnp) if n=m=p -> O(n^3)
+ *** gauss-jordan - see definition below - O(n^3)
+ *** partial pivoting - O(n^2)
+ *** full-pivoting - O(n^3)
  * 
- * full-pivoting
  * be able to show partial or full pivoting on a matrix (just 1, not the whole thing)
  * be able to compute complexity
- * for nxn matrix A and column vector x
- * Ax is O(n^2)
+ * for nxn matrix A and column vector x -> Ax is O(n^2)
  * 
  * LU factorization - O(n^3)
  * should be able to demonstrate a single row of the algorithm (simple numbers, no calculator required)
@@ -66,3 +66,9 @@ double get(int i, int j){ //O(1)
     }
     return m[3*i + j-i + 1]; // return m[2*i + j];
 }
+
+/** Gauss-Jordan
+ * Gaussian elimination
+ * first put in echelon form (upper triangular form)
+ * then reduce to diagonal matrix of 1
+**/
