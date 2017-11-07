@@ -28,9 +28,9 @@
  *** partial pivoting - O(n^2)
  *** full-pivoting - O(n^3)
  * 
- * be able to show partial or full pivoting on a matrix (just 1, not the whole thing)
- * be able to compute complexity
- * for nxn matrix A and column vector x -> Ax is O(n^2)
+ *** be able to show partial or full pivoting on a matrix (just 1, not the whole thing)
+ *** be able to compute complexity
+ *** for nxn matrix A and column vector x -> Ax is O(n^2)
  * 
  * LU factorization - O(n^3)
  * should be able to demonstrate a single row of the algorithm (simple numbers, no calculator required)
@@ -68,7 +68,13 @@ double get(int i, int j){ //O(1)
 }
 
 /** Gauss-Jordan
- * Gaussian elimination
+ * pivot if necessary
  * first put in echelon form (upper triangular form)
  * then reduce to diagonal matrix of 1
 **/
+
+/** LU Decomposition (factorization)
+ * uses lower and upper matrices to factor a matrix
+ * 
+ * first augment with identity matrix
+ * 
