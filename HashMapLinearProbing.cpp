@@ -61,7 +61,7 @@ public:
 
 int main(){
     int n;
-
+    cout<< "input an integer\n";
     cin >> n;
     HashMap *m = new HashMap(n);
     for (int i = 0; i < n; i++)
