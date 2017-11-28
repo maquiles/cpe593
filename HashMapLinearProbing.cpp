@@ -19,15 +19,16 @@ private:
     private:
         int key;
     public:
-        HashEntry(int k) : key(k) {}
-
+        int collisions;
+        HashEntry(int k, int c) : key(k), collisions(c) {}
+        int getCollisions() { return collisions; }
         int getKey() { return key; }
     };
 
     HashEntry **table;
     int tableSize;
 public:
-    HashMap(int ts) : tableSize(ts) {
+    HashMap(int ts) : tableSize(ts*2) {
         table = new HashEntry*[tableSize];
         for (int i = 0; i < tableSize; i++)
             table[i] = nullptr;
@@ -51,11 +52,34 @@ public:
  
     void put(int key) {
         int hash = (key % tableSize);
+        int c = 0;
         while (table[hash] != nullptr && table[hash]->getKey() != key)
             hash = (hash + 1) % tableSize;
+            c++;
         if (table[hash] != nullptr)
             delete table[hash];
-        table[hash] = new HashEntry(key);
+        table[hash] = new HashEntry(key, c);
+    }
+
+    void displayHistogram(){
+        int* histogram = new int[51];
+        
+        for (int i = 0; i < tableSize-1; i++){
+            if(table[i]->collisions > 50){
+                histogram[51]++;
+            }
+            else{
+                if(table[i] != nullptr){
+                    histogram[table[i]->collisions]++;
+                }
+            }
+        }
+        cout<< "testy mctesterson\n";
+        for (int j = 0; j < 51; j++){
+            cout<< j<< "\t"<< histogram[j]<< "\n";
+        }
+        cout<< "51\t"<< histogram[51]<< "\n";
+        delete[] histogram;
     }
 };
 
@@ -66,6 +90,6 @@ int main(){
     HashMap *m = new HashMap(n);
     for (int i = 0; i < n; i++)
         m->put(i);
-    //m.displayHistogram()
+    m->displayHistogram();
     return 0;
 }
