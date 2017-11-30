@@ -19,8 +19,8 @@ private:
     class HashEntry {
     private:
         int key;
-    public:
         int collisions;
+    public:
         HashEntry(int k, int c) : key(k), collisions(c) {}
         int getCollisions() { return collisions; }
         int getKey() { return key; }
@@ -61,21 +61,20 @@ public:
         if (table[hash] != nullptr)
             delete table[hash];
         table[hash] = new HashEntry(key, c);
-        cout<< "successfully put: "<< key<< "\n";
     }
 
     void displayHistogram(){
         int* histogram = new int[51];
         
-        for (int i = 0; i < tableSize; i++){
-            int x = table[i]->collisions;
-            if(x > 50){
-                histogram[50]++;
-            }
-            else{
-                if(table[i] != nullptr){
+        for (int i = 1; i < tableSize; i++){
+            if(table[i] != nullptr){
+                int x = table[i]->getCollisions();
+
+                if( x > 50){
+                    histogram[50]++;
+                }
+                else{
                     histogram[x]++;
-                    cout<<"are we here\n";
                 }
             }
         }
@@ -83,7 +82,7 @@ public:
         for (int j = 0; j < 51; j++){
             cout<< j<< "\t"<< histogram[j]<< "\n";
         }
-        cout<< "51\t"<< histogram[50]<< "\n";
+        cout<< ">51\t"<< histogram[50]<< "\n";
         delete[] histogram;
     }
 };
