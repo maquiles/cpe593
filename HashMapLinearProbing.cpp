@@ -9,6 +9,7 @@
 **/
 
 #include<iostream>
+#include<vector>
 
 using namespace std;
  
@@ -28,7 +29,8 @@ private:
     HashEntry **table;
     int tableSize;
 public:
-    HashMap(int ts) : tableSize(ts*2) {
+    HashMap(int ts) {
+        tableSize = ts*2;
         table = new HashEntry*[tableSize];
         for (int i = 0; i < tableSize; i++)
             table[i] = nullptr;
@@ -59,18 +61,21 @@ public:
         if (table[hash] != nullptr)
             delete table[hash];
         table[hash] = new HashEntry(key, c);
+        cout<< "successfully put: "<< key<< "\n";
     }
 
     void displayHistogram(){
         int* histogram = new int[51];
         
-        for (int i = 0; i < tableSize-1; i++){
-            if(table[i]->collisions > 50){
-                histogram[51]++;
+        for (int i = 0; i < tableSize; i++){
+            int x = table[i]->collisions;
+            if(x > 50){
+                histogram[50]++;
             }
             else{
                 if(table[i] != nullptr){
-                    histogram[table[i]->collisions]++;
+                    histogram[x]++;
+                    cout<<"are we here\n";
                 }
             }
         }
@@ -78,7 +83,7 @@ public:
         for (int j = 0; j < 51; j++){
             cout<< j<< "\t"<< histogram[j]<< "\n";
         }
-        cout<< "51\t"<< histogram[51]<< "\n";
+        cout<< "51\t"<< histogram[50]<< "\n";
         delete[] histogram;
     }
 };
@@ -88,7 +93,7 @@ int main(){
     cout<< "input an integer\n";
     cin >> n;
     HashMap *m = new HashMap(n);
-    for (int i = 0; i < n; i++)
+    for (int i = 1; i <= n; i++)
         m->put(i);
     m->displayHistogram();
     return 0;
