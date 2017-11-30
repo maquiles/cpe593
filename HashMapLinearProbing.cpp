@@ -54,12 +54,11 @@ public:
  
     void put(int key) {
         int hash = (key % tableSize);
-        int c = 0;
-        while (table[hash] != nullptr && table[hash]->getKey() != key)
+        int c = 1;
+        while (table[hash] != nullptr && table[hash]->getKey() != key){
             hash = (hash + 1) % tableSize;
             c++;
-        if (table[hash] != nullptr)
-            delete table[hash];
+        }
         table[hash] = new HashEntry(key, c);
     }
 
@@ -77,12 +76,15 @@ public:
                     histogram[x]++;
                 }
             }
+            else{
+                histogram[0]++;
+            }
         }
-        cout<< "testy mctesterson\n";
+
         for (int j = 0; j < 51; j++){
             cout<< j<< "\t"<< histogram[j]<< "\n";
         }
-        cout<< ">51\t"<< histogram[50]<< "\n";
+        cout<< ">50\t"<< histogram[50]<< "\n";
         delete[] histogram;
     }
 };
@@ -92,8 +94,9 @@ int main(){
     cout<< "input an integer\n";
     cin >> n;
     HashMap *m = new HashMap(n);
-    for (int i = 1; i <= n; i++)
+    for (int i = 1; i <= n; i++){
         m->put(i);
+    }
     m->displayHistogram();
     return 0;
 }
