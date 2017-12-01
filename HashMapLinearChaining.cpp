@@ -23,11 +23,8 @@ private:
     public:
         LinearChain() : chain(), chainSize(0) {}
         ~LinearChain(){
-            for (int i = 0; i < chainSize; i++){
-                delete chain[i];
-            }
-            delete[] chain;
-            delete chainSize;
+            //delete[] chain;
+            //delete chainSize;
         }
 
         void incChainSize(){ chainSize++;}
@@ -40,8 +37,9 @@ private:
                     return chain[i];
                 }
             }
+            return "string not found\n";
         }
-    }
+    };
 
     LinearChain **map;
     int mapSize;
@@ -49,9 +47,9 @@ private:
 public:
     HashMap(int s){
         mapSize = s;
-        chain = new LinearChain*[mapSize];
+        map = new LinearChain*[mapSize];
         for (int i = 0; i < mapSize; i++)
-            chain[i] = nullptr;
+            map[i] = nullptr;
     }
     ~HashMap(){
         for (int i = 0; i < mapSize; i++)
@@ -70,20 +68,23 @@ public:
     }
 
     void put(string str){
-        int hash = hash(str);
-        map[hash]->addToChain(str);
-        map[hash]->incChainSize();
+        int h = hash(str);
+        map[h]->addToChain(str);
+        map[h]->incChainSize();
     }
 
     string get(string str){
-        int hash = hash(str);
-        return map[hash]->getFromChain(str);
+        int h = hash(str);
+        return map[h]->getFromChain(str);
     }
 
     void displayHistogram(){
-
+        for (int i = 0; i < mapSize; i++){
+            cout<< i<< "\t";
+            cout<< map[i]->getChainSize()<< "\n";
+        }
     }
-}
+};
 
 int main(){
 
