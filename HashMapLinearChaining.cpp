@@ -3,8 +3,8 @@
  * CPE 593
  * HashMapLinearProbing
  * 
- * hashing function sums up the ascii values for the characters in each word in the dictionary
- * and uses it to hash 
+ * hashing function used is modified from a stackoverflow answer at link below:
+ * https://stackoverflow.com/questions/9577182/convert-each-character-in-string-to-ascii
 **/
 
 #include<iostream>
@@ -31,24 +31,24 @@ private:
         void addToChain(string str){ chain.push_back(str); }
         int getChainSize(){ return chainSize; }
 
-        string getFromChain(string str){
+        bool foundInChain(string str){
             for (int i = 0; i < chainSize; i++){
                 if(str == chain[i]){
-                    return chain[i];
+                    return true;
                 }
             }
-            return "string not found";
+            return false;
         }
     };
 
     LinearChain **map;
-    int mapSize;
+    unsigned long int mapSize;
 
 public:
-    HashMap(int s){
+    HashMap(unsigned long int s){
         mapSize = s;
         map = new LinearChain*[mapSize];
-        for (int i = 0; i < mapSize; i++)
+        for (unsigned long int i = 0; i < mapSize; i++)
             map[i] = new LinearChain();
     }
     ~HashMap(){
@@ -75,12 +75,22 @@ public:
 
     string get(string str){
         int h = hash(str);
-        return map[h]->getFromChain(str);
+        if(map[h]->foundInChain(str) == true){
+            return str;
+        }
+        else{
+            return "not found";
+        }
+    }
+
+    bool found(string str){
+        int h = hash(str);
+        return map[h]->foundInChain(str);
     }
 
     void displayHistogram(){
         cout<< "\ninsert\tcount\n";
-        for (int i = 0; i < mapSize; i++){
+        for (unsigned long int i = 0; i < mapSize; i++){
             cout<< i<< "\t";
             cout<< map[i]->getChainSize()<< "\n";
         }
@@ -88,11 +98,10 @@ public:
 };
 
 int main(){
-    HashMap *m = new HashMap(1024);
+    HashMap *m = new HashMap(3407);//2621 is highest ascii sum for all words * 1.3 (+30%) = 3407
 
-    ifstream infile("dict.txt");
     string line;
-
+    ifstream infile("dict.txt");
     while(getline(infile, line)){
         stringstream iss(line);
         string word;
@@ -100,8 +109,17 @@ int main(){
         m->put(word);
     }
 
-    cout<< m->get("aaa")<< "\n";;
-
     m->displayHistogram();
+    cout<< "\n";
+
+    ifstream infile2("hw8.dat");
+    while(getline(infile2, line)){
+        stringstream iss(line);
+        string word;
+        iss >> word;
+        cout<< word<< ":\t";
+        if(m->found(word)){ cout<< "true\n";}
+        else{ cout<< "false\n";}
+    }
     return 0;
 }
