@@ -16,14 +16,12 @@ using namespace std;
 class HashMap {
 private:
     class LinearChain {
-    public:
+    private:
         vector<string> chain;
         int chainSize;
-    private:
-        LinearChain(string str) {
-            chainSize = 1;
-            chain.push_back(str);
-        }
+
+    public:
+        LinearChain() : chain(), chainSize(0) {}
         ~LinearChain(){
             for (int i = 0; i < chainSize; i++){
                 delete chain[i];
@@ -32,9 +30,11 @@ private:
             delete chainSize;
         }
 
-        getChainSize(){ return chainSize; }
+        void incChainSize(){ chainSize++;}
+        void addToChain(string str){ chain.push_back(str); }
+        int getChainSize(){ return chainSize; }
 
-        getFromChain(string str){
+        string getFromChain(string str){
             for (int i = 0; i < chainSize; i++){
                 if(str == chain[i]){
                     return chain[i];
@@ -65,17 +65,19 @@ public:
         for (unsigned int i = 0; i < str.size(); i++){
             sum += str[i];
         }
-
         int hash = sum % mapSize;
         return hash;
     }
 
-    void put(){
-
+    void put(string str){
+        int hash = hash(str);
+        map[hash]->addToChain(str);
+        map[hash]->incChainSize();
     }
 
-    void get(){
-
+    string get(string str){
+        int hash = hash(str);
+        return map[hash]->getFromChain(str);
     }
 
     void displayHistogram(){
