@@ -10,6 +10,9 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include<stdlib.h>
+#include<fstream>
+#include<sstream>
 
 using namespace std;
 
@@ -21,13 +24,10 @@ private:
         int chainSize;
 
     public:
-        LinearChain() : chain(), chainSize(0) {}
-        ~LinearChain(){
-            //delete[] chain;
-            //delete chainSize;
-        }
+        LinearChain() { chainSize = 0;}
+        ~LinearChain(){}
 
-        void incChainSize(){ chainSize++;}
+        void incChainSize(){ chainSize++; }
         void addToChain(string str){ chain.push_back(str); }
         int getChainSize(){ return chainSize; }
 
@@ -37,7 +37,7 @@ private:
                     return chain[i];
                 }
             }
-            return "string not found\n";
+            return "string not found";
         }
     };
 
@@ -49,7 +49,7 @@ public:
         mapSize = s;
         map = new LinearChain*[mapSize];
         for (int i = 0; i < mapSize; i++)
-            map[i] = nullptr;
+            map[i] = new LinearChain();
     }
     ~HashMap(){
         for (int i = 0; i < mapSize; i++)
@@ -79,6 +79,7 @@ public:
     }
 
     void displayHistogram(){
+        cout<< "\ninsert\tcount\n";
         for (int i = 0; i < mapSize; i++){
             cout<< i<< "\t";
             cout<< map[i]->getChainSize()<< "\n";
@@ -87,6 +88,20 @@ public:
 };
 
 int main(){
+    HashMap *m = new HashMap(1024);
 
+    ifstream infile("dict.txt");
+    string line;
+
+    while(getline(infile, line)){
+        stringstream iss(line);
+        string word;
+        iss >> word;
+        m->put(word);
+    }
+
+    cout<< m->get("aaa")<< "\n";;
+
+    m->displayHistogram();
     return 0;
 }
