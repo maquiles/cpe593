@@ -32,7 +32,7 @@
  *** be able to compute complexity
  *** for nxn matrix A and column vector x -> Ax is O(n^2)
  * 
- * LU factorization - O(n^3)
+ *** LU factorization - O(n^3)
  * should be able to demonstrate a single row of the algorithm (simple numbers, no calculator required)
  * Ex: 
  * 2 1 3 1 0 0
@@ -40,7 +40,7 @@
  * 
  * to wipe out the number below the 2 in the first column, multiply first row by -1/2
  * 2 1     3   1 0 0
- * 1 2.5 -.5 -.5 1 0
+ * 0 2.5 -.5 -.5 1 0
  * 
  * complexity of this operation = 2n = O(n)
  * 
