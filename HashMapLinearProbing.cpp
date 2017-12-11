@@ -19,8 +19,8 @@ private:
     class HashEntry {
     private:
         int key;
-    public:
         int collisions;
+    public:
         HashEntry(int k, int c) : key(k), collisions(c) {}
         int getCollisions() { return collisions; }
         int getKey() { return key; }
@@ -54,36 +54,37 @@ public:
  
     void put(int key) {
         int hash = (key % tableSize);
-        int c = 0;
-        while (table[hash] != nullptr && table[hash]->getKey() != key)
+        int c = 1;
+        while (table[hash] != nullptr && table[hash]->getKey() != key){
             hash = (hash + 1) % tableSize;
             c++;
-        if (table[hash] != nullptr)
-            delete table[hash];
+        }
         table[hash] = new HashEntry(key, c);
-        cout<< "successfully put: "<< key<< "\n";
     }
 
     void displayHistogram(){
         int* histogram = new int[51];
         
-        for (int i = 0; i < tableSize; i++){
-            int x = table[i]->collisions;
-            if(x > 50){
-                histogram[50]++;
-            }
-            else{
-                if(table[i] != nullptr){
+        for (int i = 1; i < tableSize; i++){
+            if(table[i] != nullptr){
+                int x = table[i]->getCollisions();
+
+                if( x > 50){
+                    histogram[50]++;
+                }
+                else{
                     histogram[x]++;
-                    cout<<"are we here\n";
                 }
             }
+            else{
+                histogram[0]++;
+            }
         }
-        cout<< "testy mctesterson\n";
+
         for (int j = 0; j < 51; j++){
             cout<< j<< "\t"<< histogram[j]<< "\n";
         }
-        cout<< "51\t"<< histogram[50]<< "\n";
+        cout<< ">50\t"<< histogram[50]<< "\n";
         delete[] histogram;
     }
 };
@@ -93,8 +94,9 @@ int main(){
     cout<< "input an integer\n";
     cin >> n;
     HashMap *m = new HashMap(n);
-    for (int i = 1; i <= n; i++)
+    for (int i = 1; i <= n; i++){
         m->put(i);
+    }
     m->displayHistogram();
     return 0;
 }
