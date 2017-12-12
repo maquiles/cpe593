@@ -307,14 +307,16 @@ private:
     List<Edge> edges;
 public:
     bool isAdjacent(int i , int j){//O(V^2)
-
+        if(i < j)
+            return isAdjacent(j, i);
+        return m[i][j];
     }
     bool[] adjacent(int i){//O(V^2)
 
     }
 }
 
-//matrix
+//matrix ********************************************************************************************************
 class MatrixGraph {
 private:
     double[] w;
@@ -330,7 +332,7 @@ public:
 }
 
 /**
- * good edge  list (each vertex has a list of edges)
+ * good edge  list (each vertex has a list of edges)********************************************************************************************************
  * **/
 class EdgeListGraph {
 private:
@@ -348,7 +350,7 @@ public:
     }
 }
 
-/**Depth First Search (DFS)
+/**Depth First Search (DFS) ********************************************************************************************************
 //recursive
 g.DFS(v)
     visited <- [false, false, false, ...] //O(V)
@@ -374,7 +376,35 @@ g.DFS(visited, v)
         end
     end
 end
+*/
+void Graph::DFSUtil(int v, bool visited[])
+{
+    // Mark the current node as visited and print it
+    visited[v] = true;
+    cout << v << " ";
+ 
+    // Recur for all the vertices adjacent to this vertex
+    list<int>::iterator i;
+    for (i = adj[v].begin(); i != adj[v].end(); ++i)
+        if (!visited[*i])
+            DFSUtil(*i, visited);
+}
+ 
+// DFS traversal of the vertices reachable from v.
+// It uses recursive DFSUtil()
+void Graph::DFS(int v)
+{
+    // Mark all the vertices as not visited
+    bool *visited = new bool[V];
+    for (int i = 0; i < V; i++)
+        visited[i] = false;
+ 
+    // Call the recursive helper function
+    // to print DFS traversal
+    DFSUtil(v, visited);
+}
 
+/*
 //iterative
 g.DFS(v)
   visited[*]← false  //O(V)
@@ -391,9 +421,34 @@ g.DFS(v)
     end
   end
 end
+*/
+void Graph::DFS(int x, int required){
+    stack s;
+    bool *visited = new bool[n+1];
+    int i;
+    for(i = 0; i <= n; i++)
+        visited[i] = false;
+    s.push(x);
+    visited[x] = true;
+    if(x == required) return;
+    cout << "Depth first Search starting from vertex ";
+    cout << x << " : " << endl;
+    while(!s.isEmpty()){
+        int k = s.pop();
+        if(k == required) break;
+        cout<<k<<" ";
+        for (i = n; i >= 0 ; --i)
+            if (isConnected(k, i) && !visited[i]) {
+                s.push(i);
+                visited[i] = true;
+            }
+    }
+    cout<<endl;
+    delete [] visited;
+} 
 
-
-//Breadth First Search (BFS) (iterative)
+/*
+//Breadth First Search (BFS) (iterative)********************************************************************************************************
 g.BFS(v)
   visited[*]← false
   queue.enqueue(v)
@@ -408,8 +463,48 @@ g.BFS(v)
     end
   end
 end
+*/
+void Graph::BFS(int s)
+{
+    // Mark all the vertices as not visited
+    bool *visited = new bool[V];
+    for(int i = 0; i < V; i++)
+        visited[i] = false;
+ 
+    // Create a queue for BFS
+    list<int> queue;
+ 
+    // Mark the current node as visited and enqueue it
+    visited[s] = true;
+    queue.push_back(s);
+ 
+    // 'i' will be used to get all adjacent
+    // vertices of a vertex
+    list<int>::iterator i;
+ 
+    while(!queue.empty())
+    {
+        // Dequeue a vertex from queue and print it
+        s = queue.front();
+        cout << s << " ";
+        queue.pop_front();
+ 
+        // Get all adjacent vertices of the dequeued
+        // vertex s. If a adjacent has not been visited, 
+        // then mark it visited and enqueue it
+        for (i = adj[s].begin(); i != adj[s].end(); ++i)
+        {
+            if (!visited[*i])
+            {
+                visited[*i] = true;
+                queue.push_back(*i);
+            }
+        }
+    }
+}
 
-//isConnected
+/*
+//isConnected********************************************************************************************************
 g.isConnected(v)
   visited[*]← false
   stack.push(v)
@@ -428,30 +523,167 @@ g.isConnected(v)
   return count == v
 end
 
-//Bellman-Ford	(no pseudocode)
-need an explination of what this is
+//using dfs
+bool ← g.isConnected()	//O(V^2)
+   visited← g.DFS(r)		//O(V^2)
+   for i← 0 to V
+      if NOT visited[i]
+        return false
+   end
+   return true
+end
+*/
+bool Graph::isConnected()
+{
+    bool visited[V];
+    for (int i = 0; i < V; i++)
+        visited[i] = false;
+    DFSUtil(0, visited);
+    for (int i = 0; i < V; i++)
+        if (visited[i] == false)
+             return false;
+    Graph gr = getTranspose();
+    for(int i = 0; i < V; i++)
+        visited[i] = false;
+    gr.DFSUtil(0, visited);
+    for (int i = 0; i < V; i++)
+        if (visited[i] == false)
+             return false;
+    return true;
+}
 
-//Floyd-Warshall (yes pseudocode)
+/*
+//Bellman-Ford	(no pseudocode) O(V^3) = O(EV)********************************************************************************************************
+//algorithm that computes the shortest paths from a signel source vertex to all of the other vertices in a weighted digraph
+-initialize all dinstances as infinite
+- do v-1 iterations
+- examine all edges on each iteration (look at each node)
+- update table untill there are no changes and then you should have the shortest path to each node
+- if prof kruger has us write out a table i think he is going to want to see it for each node cause that what the notes are
+*/
 
+//Floyd-Warshall (yes pseudocode)********************************************************************************************************
+//initialize each nodes path to itself as 0
+//add it weights for edges
+//nested for loop for 
+void floydWarshall (int graph[][V]){//O(V^3)
+    int dist[V][V], i, j, k;
 
-//Prim
+    for (i = 0; i < V; i++)
+        for (j = 0; j < V; j++)
+            dist[i][j] = graph[i][j];
+    for (k = 0; k < V; k++){
+        for (i = 0; i < V; i++){
+            for (j = 0; j < V; j++){
+                if (dist[i][k] + dist[k][j] < dist[i][j])
+                    dist[i][j] = dist[i][k] + dist[k][j];
+            }
+        }
+    }
+    // Print the shortest distance matrix
+}
+
+/*
+//Prim********************************************************************************************************
 Prim(v)
 	visited ←new Vector(V, false)
 	visited[v] ← true
 	for i ← 1 to V-1
-	for a ← // for all edges out of the visited set (V, 2V, 3V, …) 0 to V-1
-			min ← ∞
-			if isAdjacent(v, a) and NOT visited[a]
-				if getWeight(v,a) < min
-					min ← getWeight(v,a)
-					minA ← a
-				end
-			end
-		end
-visited[minA] ← true
-v ← minA
+        for a ← // for all edges out of the visited set (V, 2V, 3V, …) 0 to V-1
+                min ← ∞
+                if isAdjacent(v, a) and NOT visited[a]
+                    if getWeight(v,a) < min
+                        min ← getWeight(v,a)
+                        minA ← a
+                    end
+                end
+        end
+        visited[minA] ← true
+        v ← minA
+    end
 end
-end
+*/
+void primMST(int graph[V][V]){
+    int parent[V]; //store constructed mst
+    int key[V]; //key values used to pick minimum weight edge in cut
+    bool mstSet[v]; //to represent set of vertices not yet included in mst
 
-//Kruskal
+    //initialize all keys as infinite
+    for (int i = 0; i < V; i++){
+        key[i] = INT_MAX, mstSet[i] = false;
+    }
+
+    key[0]; //make 0 key so that this vertex is picket as first vertex
+    parent[0] = -1; //first node is always root of MST
+
+    //the mst will have V vertices
+    for (int count = 0; count < V-1; count++){
+        //pick minimum key vertex from the set of verticies not yet included in mst
+        int u = minKey(key, mstSet);
+        mstSet[u] = true; //add the picked vertex to the mst set
+
+        for (int v = 0; v < V; v++){
+            // graph[u][v] is non zero only for adjacent vertices of m
+            // mstSet[v] is false for vertices not yet included in MST
+            // Update the key only if graph[u][v] is smaller than key[v]
+            if (graph[u][v] && mstSet[v] == false && graph[u][v] <  key[v])
+                parent[v]  = u, key[v] = graph[u][v];
+        }
+    }
+    //print the constructed mst here
+}
+
+//Kruskal********************************************************************************************************
+// Initialize result
+mst_weight = 0
+
+// Create V single item sets
+for each vertex v
+	parent[v] = v;
+	rank[v] = 0;
+
+Sort all edges into non decreasing 
+order by weight w
+
+for each (u, v) taken from the sorted list  E
+    do if FIND-SET(u) != FIND-SET(v)
+        print edge(u, v)
+        mst_weight += weight of edge(u, v)
+        UNION(u, v)
 **/
+int Graph::kruskalMST()
+{
+    int mst_wt = 0; // Initialize result
+ 
+    // Sort edges in increasing order on basis of cost
+    sort(edges.begin(), edges.end());
+ 
+    // Create disjoint sets
+    DisjointSets ds(V);
+ 
+    // Iterate through all sorted edges
+    vector< pair<int, iPair> >::iterator it;
+    for (it=edges.begin(); it!=edges.end(); it++)
+    {
+        int u = it->second.first;
+        int v = it->second.second;
+ 
+        int set_u = ds.find(u);
+        int set_v = ds.find(v);
+ 
+        // Check if the selected edge is creating a cycle or not (Cycle is created if u and v belong to same set)
+        if (set_u != set_v)
+        {
+            // Current edge will be in the MST so print it
+            cout << u << " - " << v << endl;
+ 
+            // Update MST weight
+            mst_wt += it->first;
+ 
+            // Merge two sets
+            ds.merge(set_u, set_v);
+        }
+    }
+ 
+    return mst_wt;
+}
