@@ -185,8 +185,8 @@ public:
             4   9 11   13
 
 		inorder - 4 8 9 10 11 12 13
-        preorder - 10 8 4 9 12 11 13
-        postorder - 4 9 8 11 13 12 10
+        preorder - 10 8 4 9 12 11 13 (top down)
+        postorder - 4 9 8 11 13 12 10 (bottom up)
 
 	Balanced Binary Trees	
 		Def of RB Tree - type of self balancing tree where each node has an extra bit (red or black)
@@ -381,8 +381,6 @@ void Graph::DFSUtil(int v, bool visited[])
 {
     // Mark the current node as visited and print it
     visited[v] = true;
-    cout << v << " ";
- 
     // Recur for all the vertices adjacent to this vertex
     list<int>::iterator i;
     for (i = adj[v].begin(); i != adj[v].end(); ++i)
@@ -399,8 +397,7 @@ void Graph::DFS(int v)
     for (int i = 0; i < V; i++)
         visited[i] = false;
  
-    // Call the recursive helper function
-    // to print DFS traversal
+    // Call the recursive helper function to print DFS traversal
     DFSUtil(v, visited);
 }
 
@@ -431,19 +428,15 @@ void Graph::DFS(int x, int required){
     s.push(x);
     visited[x] = true;
     if(x == required) return;
-    cout << "Depth first Search starting from vertex ";
-    cout << x << " : " << endl;
     while(!s.isEmpty()){
         int k = s.pop();
         if(k == required) break;
-        cout<<k<<" ";
         for (i = n; i >= 0 ; --i)
             if (isConnected(k, i) && !visited[i]) {
                 s.push(i);
                 visited[i] = true;
             }
     }
-    cout<<endl;
     delete [] visited;
 } 
 
@@ -473,29 +466,20 @@ void Graph::BFS(int s)
  
     // Create a queue for BFS
     list<int> queue;
- 
     // Mark the current node as visited and enqueue it
     visited[s] = true;
     queue.push_back(s);
- 
-    // 'i' will be used to get all adjacent
-    // vertices of a vertex
+    // 'i' will be used to get all adjacent vertices of a vertex
     list<int>::iterator i;
  
-    while(!queue.empty())
-    {
+    while(!queue.empty()){
         // Dequeue a vertex from queue and print it
         s = queue.front();
-        cout << s << " ";
         queue.pop_front();
  
-        // Get all adjacent vertices of the dequeued
-        // vertex s. If a adjacent has not been visited, 
-        // then mark it visited and enqueue it
-        for (i = adj[s].begin(); i != adj[s].end(); ++i)
-        {
-            if (!visited[*i])
-            {
+        // Get all adjacent vertices of the dequeued vertex s. If a adjacent has not been visited, then mark it visited and enqueue it
+        for (i = adj[s].begin(); i != adj[s].end(); ++i){
+            if (!visited[*i]){
                 visited[*i] = true;
                 queue.push_back(*i);
             }
@@ -542,6 +526,8 @@ bool Graph::isConnected()
     for (int i = 0; i < V; i++)
         if (visited[i] == false)
              return false;
+
+    //flip it and check DFS the opposite way
     Graph gr = getTranspose();
     for(int i = 0; i < V; i++)
         visited[i] = false;
