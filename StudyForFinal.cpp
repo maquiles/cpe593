@@ -419,25 +419,22 @@ g.DFS(v)
   end
 end
 */
-void Graph::DFS(int x, int required){
-    stack s;
-    bool *visited = new bool[n+1];
-    int i;
-    for(i = 0; i <= n; i++)
-        visited[i] = false;
-    s.push(x);
-    visited[x] = true;
-    if(x == required) return;
-    while(!s.isEmpty()){
-        int k = s.pop();
-        if(k == required) break;
-        for (i = n; i >= 0 ; --i)
-            if (isConnected(k, i) && !visited[i]) {
-                s.push(i);
+void Graph::DFS(int s){
+    vector<bool> visited = {false};
+    satck<int> stack;
+    stack.push(s);
+    vector<int> i;
+    while(!stack.empty){
+        int top = stack.top();
+        stack.pop();
+        visited([top] = true;
+        for(i = adj[top].begin(); i < adj[top].end(); ++i){
+            if(!visited[i]){
                 visited[i] = true;
+                stack.push(i);
             }
+        }
     }
-    delete [] visited;
 } 
 
 /*
@@ -461,23 +458,15 @@ void Graph::BFS(int s)
 {
     // Mark all the vertices as not visited
     bool *visited = new bool[V];
-    for(int i = 0; i < V; i++)
-        visited[i] = false;
  
-    // Create a queue for BFS
     list<int> queue;
-    // Mark the current node as visited and enqueue it
-    visited[s] = true;
     queue.push_back(s);
-    // 'i' will be used to get all adjacent vertices of a vertex
     list<int>::iterator i;
  
     while(!queue.empty()){
-        // Dequeue a vertex from queue and print it
         s = queue.front();
-        queue.pop_front();
- 
-        // Get all adjacent vertices of the dequeued vertex s. If a adjacent has not been visited, then mark it visited and enqueue it
+        visited[s] = true;
+        queue.pop();
         for (i = adj[s].begin(); i != adj[s].end(); ++i){
             if (!visited[*i]){
                 visited[*i] = true;
@@ -589,36 +578,43 @@ Prim(v)
     end
 end
 */
-void primMST(int graph[V][V]){
+void primMST(int graph[V][V]){//O(V^2)
     int parent[V]; //store constructed mst
     int key[V]; //key values used to pick minimum weight edge in cut
     bool mstSet[v]; //to represent set of vertices not yet included in mst
 
     //initialize all keys as infinite
     for (int i = 0; i < V; i++){
-        key[i] = INT_MAX, mstSet[i] = false;
+        key[i] = INT_MAX
+        mstSet[i] = false;
     }
 
-    key[0]; //make 0 key so that this vertex is picket as first vertex
     parent[0] = -1; //first node is always root of MST
 
     //the mst will have V vertices
     for (int count = 0; count < V-1; count++){
         //pick minimum key vertex from the set of verticies not yet included in mst
-        int u = minKey(key, mstSet);
+        int u;
+        for(int j = 0; j<V; j++){
+            if(mstSet[j] == false && key[j] < INT_MAX){
+                u = i;
+            }
+        }
         mstSet[u] = true; //add the picked vertex to the mst set
 
         for (int v = 0; v < V; v++){
-            // graph[u][v] is non zero only for adjacent vertices of m
-            // mstSet[v] is false for vertices not yet included in MST
-            // Update the key only if graph[u][v] is smaller than key[v]
             if (graph[u][v] && mstSet[v] == false && graph[u][v] <  key[v])
-                parent[v]  = u, key[v] = graph[u][v];
+                parent[v]  = u
+                key[v] = graph[u][v];
         }
     }
     //print the constructed mst here
+    for (int i = 0; i<V; i++){
+        //print parent[i], i, graph[i][parent[i]];
+    }
 }
 
+/*
 //Kruskal********************************************************************************************************
 // Initialize result
 mst_weight = 0
@@ -636,40 +632,59 @@ for each (u, v) taken from the sorted list  E
         print edge(u, v)
         mst_weight += weight of edge(u, v)
         UNION(u, v)
-**/
-int Graph::kruskalMST()
+*/
+
+// sort edges by weight
+// for all edges in increasing order:
+//     if find(u) != find(v) 
+//         add edge to X 
+//         union(u, v)
+void KruskalMST(struct Graph* graph)
 {
-    int mst_wt = 0; // Initialize result
+    int V = graph->V;
+    struct Edge result[V];  // Tnis will store the resultant MST
+    int e = 0;  // An index variable, used for result[]
+    int i = 0;  // An index variable, used for sorted edges
  
-    // Sort edges in increasing order on basis of cost
-    sort(edges.begin(), edges.end());
+    qsort(graph->edge, graph->E, sizeof(graph->edge[0]), myComp);
  
-    // Create disjoint sets
-    DisjointSets ds(V);
+    // Allocate memory for creating V ssubsets
+    struct subset *subsets =
+        (struct subset*) malloc( V * sizeof(struct subset) );
  
-    // Iterate through all sorted edges
-    vector< pair<int, iPair> >::iterator it;
-    for (it=edges.begin(); it!=edges.end(); it++)
+    // Create V subsets with single elements
+    for (int v = 0; v < V; ++v)
     {
-        int u = it->second.first;
-        int v = it->second.second;
- 
-        int set_u = ds.find(u);
-        int set_v = ds.find(v);
- 
-        // Check if the selected edge is creating a cycle or not (Cycle is created if u and v belong to same set)
-        if (set_u != set_v)
-        {
-            // Current edge will be in the MST so print it
-            cout << u << " - " << v << endl;
- 
-            // Update MST weight
-            mst_wt += it->first;
- 
-            // Merge two sets
-            ds.merge(set_u, set_v);
-        }
+        subsets[v].parent = v;
+        subsets[v].rank = 0;
     }
  
-    return mst_wt;
+    // Number of edges to be taken is equal to V-1
+    while (e < V - 1)
+    {
+        // Step 2: Pick the smallest edge. And increment 
+        // the index for next iteration
+        struct Edge next_edge = graph->edge[i++];
+ 
+        int x = find(subsets, next_edge.src);
+        int y = find(subsets, next_edge.dest);
+ 
+        // If including this edge does't cause cycle,
+        // include it in result and increment the index 
+        // of result for next edge
+        if (x != y)
+        {
+            result[e++] = next_edge;
+            Union(subsets, x, y);
+        }
+        // Else discard the next_edge
+    }
+ 
+    // print the contents of result[] to display the
+    // built MST
+    printf("Following are the edges in the constructed MST\n");
+    for (i = 0; i < e; ++i)
+        printf("%d -- %d == %d\n", result[i].src, result[i].dest,
+                                                 result[i].weight);
+    return;
 }
